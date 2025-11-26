@@ -633,3 +633,100 @@ textarea {
 .split-layout { display: flex; gap: 20px; }
 .left-panel { flex: 1; background: #fff; padding: 20px; border: 1px solid #ddd; border-radius: 5px; }
 .right-panel { flex: 1.5; background: #fff; border: 1px solid #ddd; border-radius: 5px; }
+@media print {
+    /* 1. SEMBUNYIKAN SEMUA ELEMEN YANG TIDAK PERLU */
+    .sidebar,              /* Sidebar Kiri */
+    .top-header,           /* Header Atas */
+    .window-header-strip,  /* Strip Biru */
+    .btn-admin-action,     /* Tombol Bayar & Cetak */
+    #searchForm,           /* Form Pencarian ID */
+    .modal-overlay,        /* Modal Popup */
+    .sidebar-footer,       /* Footer Sidebar */
+    .left-panel,           /* FORM INPUT (Sembunyikan Panel Kiri) */
+    .admin-btn-container,  /* Container Tombol */
+    footer,                /* Footer Bawah */
+    ::-webkit-scrollbar {  /* Scrollbar */
+        display: none !important;
+    }
+
+    /* 2. ATUR ULANG LAYOUT UTAMA */
+    body, 
+    .admin-container, 
+    .main-content, 
+    .content-body,
+    .window-panel,
+    .split-layout {
+        background-color: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        width: 100% !important;
+        height: auto !important;
+        overflow: visible !important;
+        display: block !important; /* Reset Flexbox */
+        position: static !important;
+        box-shadow: none !important;
+        border: none !important;
+    }
+
+    /* 3. FOKUSKAN PANEL KANAN (TABEL) */
+    .right-panel {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        border: none !important;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    /* 4. GAYA TABEL CETAK (HITAM PUTIH & JELAS) */
+    .custom-table {
+        width: 100% !important;
+        border: 1px solid #000 !important;
+        border-collapse: collapse !important;
+        font-size: 12pt !important; /* Ukuran font standar surat */
+        color: #000 !important;
+    }
+    
+    .custom-table th, 
+    .custom-table td {
+        border: 1px solid #000 !important;
+        padding: 8px !important;
+        text-align: center !important;
+        color: #000 !important;
+    }
+
+    .custom-table th {
+        background-color: #f0f0f0 !important; /* Header Abu-abu */
+        font-weight: bold !important;
+        -webkit-print-color-adjust: exact; /* Paksa cetak background */
+    }
+
+    /* Hilangkan warna status (LUNAS hijau jadi hitam biasa) */
+    .custom-table td[style*="color:green"] {
+        color: #000 !important;
+        font-weight: normal !important;
+    }
+
+    /* 5. JUDUL LAPORAN OTOMATIS */
+    .right-panel::before {
+        content: "LAPORAN RIWAYAT PEMBAYARAN ANGSURAN";
+        display: block;
+        text-align: center;
+        font-size: 18pt;
+        font-weight: bold;
+        margin-bottom: 20px;
+        text-decoration: underline;
+        text-transform: uppercase;
+    }
+    
+    /* Info ID Pinjaman (Opsional: Ambil dari URL jika memungkinkan, atau manual) */
+    .right-panel::after {
+        content: "Dicetak pada: " attr(data-date); /* Bisa diisi JS */
+        display: block;
+        text-align: right;
+        font-size: 10pt;
+        margin-top: 20px;
+        font-style: italic;
+    }
+}

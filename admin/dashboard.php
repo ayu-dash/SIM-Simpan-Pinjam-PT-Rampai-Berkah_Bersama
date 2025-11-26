@@ -58,6 +58,11 @@ try {
 
 <div class="window-panel"><div style="padding:20px;">
 
+    <div style="margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+        <h2 style="margin: 0; font-size: 20px; color: #444;">👋 Halo, Admin</h2>
+        <span style="color: #777; font-size: 13px;">Selamat datang kembali di dashboard sistem informasi simpan pinjam</span>
+    </div>
+
     <div class="dashboard-grid">
         <div class="info-card card-nasabah"><h3>👥 Nasabah</h3><span class="data-value"><?= $total_nasabah ?></span><p>Aktif</p></div>
         <div class="info-card card-simpanan"><h3>📥 Simpanan</h3><span class="data-value">Rp <?= number_format($total_simpanan/1000000, 1, ',', '.') ?> Jt</span><p>Total Aset</p></div>
@@ -119,7 +124,7 @@ try {
                                 <div style="font-size:11px; color:#999;">@<?= htmlspecialchars($m['username']) ?></div>
                             </div>
                         </td>
-                        <td style="text-align:right; border:none;"><span style="background:#d1e7dd; color:#0f5132; padding:2px 6px; border-radius:4px; font-size:10px;">Baru</span></td>
+                        <td style="text-align:right; border:none;"><span style="background:#d1e7dd; color:#0f5132; padding:2px 6px; border-radius:4px; font-size:10px;">Aktif</span></td>
                     </tr>
                     <?php endforeach; ?>
                     </tbody>
@@ -150,4 +155,4 @@ document.addEventListener("DOMContentLoaded", function() {
 });
 </script>
 
-<?php require_once '../includes/footer.php';
+<?php require_once '../includes/footer.php'; 
