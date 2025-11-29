@@ -33,6 +33,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['
     }
 }
 
+// --- LOGIKA HAPUS DATA (CASCADE) ---
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] == 'delete') {
+    $id_nasabah = $_POST['id_nasabah'];
+
+    try {
+        $pdo->beginTransaction();
+
+        // 1. Hapus Data Simpanan
+        $pdo->prepare("DELETE FROM simpanan WHERE id_nasabah = ?")->execute([$id_nasabah]);
+
+        // 2. Ambil ID Pinjaman terkait
+        $stmt_pinjaman = $pdo->prepare("SELECT id_pinjaman FROM pinjaman WHERE id_nasabah = ?");
+        $stmt_pinjaman->execute([$id_nasabah]);
+        $pinjaman_ids = $stmt_pinjaman->fetchAll(PDO::FETCH_COLUMN);
+
+        if (!empty($pinjaman_ids)) {
+            // Buat placeholder untuk IN clause
+            $placeholders = implode(',', array_fill(0, count($pinjaman_ids), '?'));
+            
+            // 3. Hapus Angsuran & Status Pinjaman
+            $pdo->prepare("DELETE FROM angsuran WHERE id_pinjaman IN ($placeholders)")->execute($pinjaman_ids);
+            $pdo->prepare("DELETE FROM status_pinjaman WHERE id_pinjaman IN ($placeholders)")->execute($pinjaman_ids);
+            
+            // 4. Hapus Pinjaman
+            $pdo->prepare("DELETE FROM pinjaman WHERE id_nasabah = ?")->execute([$id_nasabah]);
+        }
+
+        // 5. Hapus Nasabah
+        $pdo->prepare("DELETE FROM nasabah WHERE id_nasabah = ?")->execute([$id_nasabah]);
+        
+        $pdo->commit();
+        
+        $pesan = "Data nasabah dan seluruh riwayat transaksi berhasil dihapus!";
+        $tipe_pesan = "success";
+    } catch (Exception $e) {
+        $pdo->rollBack();
+        $pesan = "Gagal Hapus: " . $e->getMessage();
+        $tipe_pesan = "error";
+    }
+}
+
 // --- AMBIL DATA ---
 $data_nasabah = $pdo->query("SELECT nasabah.*, jabatan.nama_jabatan FROM nasabah LEFT JOIN jabatan ON nasabah.id_jabatan = jabatan.id_jabatan ORDER BY nasabah.id_nasabah ASC")->fetchAll();
 $list_jabatan = $pdo->query("SELECT * FROM jabatan")->fetchAll();
@@ -90,15 +131,27 @@ $list_jabatan = $pdo->query("SELECT * FROM jabatan")->fetchAll();
                                 </span>
                             </td>
                             <td style="text-align:center;">
-                                <button type="button" class="btn-edit"
-                                    data-id="<?= $row['id_nasabah']; ?>"
-                                    data-nama="<?= htmlspecialchars($row['nama_lengkap']); ?>"
-                                    data-user="<?= htmlspecialchars($row['username']); ?>"
-                                    data-jabatan="<?= $row['id_jabatan']; ?>"
-                                    data-status="<?= $row['status']; ?>"
-                                    onclick="openEditNasabah(this)">
-                                    ✏️
-                                </button>
+                                <div style="display:flex; justify-content:center; gap:5px;">
+                                    <button type="button" class="btn-edit"
+                                        data-id="<?= $row['id_nasabah']; ?>"
+                                        data-nama="<?= htmlspecialchars($row['nama_lengkap']); ?>"
+                                        data-user="<?= htmlspecialchars($row['username']); ?>"
+                                        data-jabatan="<?= $row['id_jabatan']; ?>"
+                                        data-status="<?= $row['status']; ?>"
+                                        onclick="openEditNasabah(this)">
+                                        ✏️
+                                    </button>
+                                    
+                                    <form method="POST" action="" style="display:inline;">
+                                        <input type="hidden" name="action" value="delete">
+                                        <input type="hidden" name="id_nasabah" value="<?= $row['id_nasabah']; ?>">
+                                        <button type="submit" class="btn-delete" 
+                                            style="background:#dc3545; color:white; border:none; padding:5px 10px; border-radius:4px; cursor:pointer;"
+                                            onclick="return confirm('Apakah Anda yakin ingin menghapus nasabah \'<?= htmlspecialchars($row['nama_lengkap']); ?>\'? Data yang dihapus tidak dapat dikembalikan.')">
+                                            🗑️
+                                        </button>
+                                    </form>
+                                </div>
                             </td>
                         </tr>
                         <?php endforeach; ?>

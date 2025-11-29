@@ -103,19 +103,21 @@ if ($sisa_baris < 0) $sisa_baris = 0;
                             <td style="text-align:center;">
                                 <?php if($row['status'] == 'MENUNGGU'): ?>
                                     
-                                    <a href="?aksi=terima&id=<?php echo $row['id_pinjaman']; ?>" 
-                                       class="btn-icon btn-approve" 
-                                       title="Setujui"
-                                       onclick="return confirm('Setujui pinjaman nasabah ini?');">
-                                       &#10003;
-                                    </a>
+                                    <div style="display:flex; justify-content:center; gap:5px;">
+                                        <a href="?aksi=tolak&id=<?php echo $row['id_pinjaman']; ?>" 
+                                           class="btn-icon btn-reject" 
+                                           title="Tolak"
+                                           onclick="return confirm('Tolak pengajuan ini?');">
+                                           &#10005;
+                                        </a>
 
-                                    <a href="?aksi=tolak&id=<?php echo $row['id_pinjaman']; ?>" 
-                                       class="btn-icon btn-reject" 
-                                       title="Tolak"
-                                       onclick="return confirm('Tolak pengajuan ini?');">
-                                       &#10005;
-                                    </a>
+                                        <a href="?aksi=terima&id=<?php echo $row['id_pinjaman']; ?>" 
+                                           class="btn-icon btn-approve" 
+                                           title="Setujui"
+                                           onclick="return confirm('Setujui pinjaman nasabah ini?');">
+                                           &#10003;
+                                        </a>
+                                    </div>
 
                                 <?php else: ?>
                                     <span style="color:#cbd5e1; font-size:12px; font-weight:600;">Selesai</span>
