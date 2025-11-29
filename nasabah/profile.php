@@ -73,7 +73,7 @@ $initials = strtoupper(substr($profile['nama_lengkap'], 0, 1));
 
                 <div class="profile-item">
                     <label>Tanggal Bergabung</label>
-                    <div>-</div> <!-- Bisa ditambahkan kolom tgl_daftar jika ada -->
+                    <div><?php echo $profile['tgl_bergabung'] ? date('d F Y', strtotime($profile['tgl_bergabung'])) : '-'; ?></div>
                 </div>
 
                 <div class="profile-item">

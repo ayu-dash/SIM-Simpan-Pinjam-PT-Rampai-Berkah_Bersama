@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 29, 2025 at 11:30 AM
+-- Generation Time: Nov 29, 2025 at 12:08 PM
 -- Server version: 10.4.32-MariaDB
 -- PHP Version: 8.0.30
 
@@ -144,21 +144,23 @@ CREATE TABLE `nasabah` (
   `nama_lengkap` varchar(50) NOT NULL,
   `username` varchar(20) NOT NULL,
   `hashed_password` varchar(100) NOT NULL,
-  `status` enum('AKTIF','SUSPEND') DEFAULT NULL
+  `status` enum('AKTIF','SUSPEND') DEFAULT NULL,
+  `tgl_bergabung` datetime DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Dumping data for table `nasabah`
 --
 
-INSERT INTO `nasabah` (`id_nasabah`, `id_jabatan`, `nama_lengkap`, `username`, `hashed_password`, `status`) VALUES
-(1, 3, 'adrian', 'adrian', '123', 'AKTIF'),
-(2, 2, 'adrian lagi', 'adrian2', '65e84be33532fb784c48129675f9eff3a682b27168c0ea744b2cf58ee02337c5', 'AKTIF'),
-(3, 3, 'siapa ya', 'siapaya', '52c62ec0d3a933be0e9f8f4fa7f3dae1c383bf05b0d068db8a63ab71a387b886', 'AKTIF'),
-(4, 1, 'galih', 'galih', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'SUSPEND'),
-(5, 1, 'daffa', 'daffa', '123', 'AKTIF'),
-(6, 2, 'aih', 'testing', '123', 'AKTIF'),
-(7, 1, 'nasabah', 'nasabah', '123', 'AKTIF');
+INSERT INTO `nasabah` (`id_nasabah`, `id_jabatan`, `nama_lengkap`, `username`, `hashed_password`, `status`, `tgl_bergabung`) VALUES
+(1, 3, 'adrian', 'adrian', '123', 'AKTIF', '2025-11-29 17:55:56'),
+(2, 2, 'adrian lagi', 'adrian2', '65e84be33532fb784c48129675f9eff3a682b27168c0ea744b2cf58ee02337c5', 'AKTIF', '2025-11-29 17:55:56'),
+(3, 3, 'siapa ya', 'siapaya', '52c62ec0d3a933be0e9f8f4fa7f3dae1c383bf05b0d068db8a63ab71a387b886', 'AKTIF', '2025-11-29 17:55:56'),
+(4, 1, 'galih', 'galih', '8d969eef6ecad3c29a3a629280e686cf0c3f5d5a86aff3ca12020c923adc6c92', 'SUSPEND', '2025-11-29 17:55:56'),
+(5, 1, 'daffa', 'daffa', '123', 'AKTIF', '2025-11-29 17:55:56'),
+(6, 2, 'aih', 'testing', '123', 'AKTIF', '2025-11-29 17:55:56'),
+(7, 1, 'nasabah', 'nasabah', '123', 'AKTIF', '2025-11-29 17:55:56'),
+(9, 1, 'Galih', 'Gajah', '123', 'AKTIF', '2025-11-29 18:05:26');
 
 -- --------------------------------------------------------
 
@@ -351,7 +353,7 @@ ALTER TABLE `metode_pembayaran`
 -- AUTO_INCREMENT for table `nasabah`
 --
 ALTER TABLE `nasabah`
-  MODIFY `id_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id_nasabah` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `pinjaman`
