@@ -31,6 +31,7 @@ $page_title = getPageTitle($current_page);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Koperasi - <?= ucwords(strtolower($page_title)) ?></title>
     <link rel="stylesheet" href="../css/style.css?v=<?= time() ?>">
+    <link rel="stylesheet" href="../css/print.css?v=<?= time() ?>" media="print">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
 </head>
 <body class="admin-mode">

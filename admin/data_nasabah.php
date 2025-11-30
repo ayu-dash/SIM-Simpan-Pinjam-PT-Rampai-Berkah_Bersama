@@ -95,6 +95,7 @@ $list_jabatan = $pdo->query("SELECT * FROM jabatan")->fetchAll();
     </div>
 
     <div class="widget-box">
+        <h2 class="print-title" style="display: none;">DAFTAR NASABAH TERDAFTAR</h2>
         <div class="widget-header">
             <span>Daftar Nasabah Terdaftar</span>
             <button onclick="window.print()" class="btn-admin-action" style="background:#17a2b8; padding: 8px 15px; font-size: 12px;">🖨️ Cetak</button>

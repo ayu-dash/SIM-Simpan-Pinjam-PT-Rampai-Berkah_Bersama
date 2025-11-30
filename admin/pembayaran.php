@@ -164,6 +164,8 @@ if ($sisa_baris < 0) $sisa_baris = 0;
 
         <!-- Right Column: History -->
         <div class="widget-box">
+            <h2 class="print-title" style="display: none;">RIWAYAT ANGSURAN PEMBAYARAN<?php echo $id_cari ? ' - ID: ' . $id_cari : ''; ?></h2>
+
             <div class="widget-header">
                 <span>Riwayat Angsuran (ID: <?php echo $id_cari ? $id_cari : '-'; ?>)</span>
             </div>

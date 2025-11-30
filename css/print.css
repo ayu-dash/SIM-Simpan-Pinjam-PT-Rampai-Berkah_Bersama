@@ -1,0 +1,174 @@
+/* =========================================
+   PRINT STYLES - HANYA TAMPILKAN TABEL
+   ========================================= */
+@media print {
+
+    /* Hide everything except the table */
+    body {
+        background: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: visible !important;
+        height: auto !important;
+    }
+
+    /* Hide all UI elements */
+    .sidebar,
+    .top-header,
+    .dashboard-welcome,
+    .widget-header,
+    .btn-admin-action,
+    .btn-edit,
+    .btn-delete,
+    .btn-icon,
+    .modal-overlay,
+    .msg-box,
+    button,
+    .user-cell .user-avatar-small,
+    .link-action {
+        display: none !important;
+    }
+
+    /* Hide form on pembayaran page */
+    .row-2-col>.widget-box:first-child {
+        display: none !important;
+    }
+
+    /* Show only content */
+    .admin-container {
+        display: block !important;
+        height: auto !important;
+        overflow: visible !important;
+    }
+
+    .main-content {
+        display: block !important;
+        height: auto !important;
+        overflow: visible !important;
+        width: 100% !important;
+    }
+
+    .content-body {
+        padding: 0 !important;
+        overflow: visible !important;
+    }
+
+    .dashboard-content {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .widget-box {
+        box-shadow: none !important;
+        border: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: white !important;
+        border-radius: 0 !important;
+        page-break-inside: avoid;
+    }
+
+    .widget-body {
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+
+    .table-responsive {
+        border: none !important;
+        overflow: visible !important;
+    }
+
+    /* Table styling for print */
+    .custom-table,
+    .table-widget {
+        width: 100% !important;
+        border-collapse: collapse !important;
+        background: white !important;
+        page-break-inside: auto;
+    }
+
+    .custom-table thead,
+    .table-widget thead {
+        display: table-header-group !important;
+    }
+
+    .custom-table tbody,
+    .table-widget tbody {
+        display: table-row-group !important;
+    }
+
+    .custom-table tr,
+    .table-widget tr {
+        page-break-inside: avoid !important;
+        page-break-after: auto !important;
+    }
+
+    .custom-table th,
+    .table-widget th {
+        background: #f8f9fa !important;
+        color: #000 !important;
+        font-weight: bold !important;
+        border: 1px solid #dee2e6 !important;
+        padding: 8px !important;
+        font-size: 11pt !important;
+    }
+
+    .custom-table td,
+    .table-widget td {
+        border: 1px solid #dee2e6 !important;
+        padding: 8px !important;
+        color: #000 !important;
+        font-size: 10pt !important;
+    }
+
+    /* Hide the action column (last column) */
+    .custom-table th:last-child,
+    .custom-table td:last-child {
+        display: none !important;
+    }
+
+    /* Clean user cell display */
+    .user-cell {
+        display: block !important;
+    }
+
+    .user-cell .font-bold {
+        font-weight: bold !important;
+    }
+
+    .text-muted-small {
+        font-size: 9pt !important;
+        color: #666 !important;
+    }
+
+    /* Status badges */
+    .status-badge {
+        border: 1px solid #000 !important;
+        padding: 2px 6px !important;
+        border-radius: 3px !important;
+        font-size: 9pt !important;
+        font-weight: bold !important;
+    }
+
+    /* For pembayaran page - show only the history table */
+    .row-2-col {
+        display: block !important;
+    }
+
+    /* Show hidden print title - BERBEDA PER HALAMAN */
+    .print-title {
+        display: block !important;
+        font-size: 18pt;
+        font-weight: bold;
+        margin-bottom: 15px;
+        text-align: center;
+        padding: 10px 0;
+        color: #000;
+    }
+
+    /* Remove extra margins and padding */
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+}

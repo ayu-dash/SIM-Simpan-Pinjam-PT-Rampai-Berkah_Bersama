@@ -51,6 +51,28 @@ try {
     // --- E. MEMBER BARU ---
     $new_members = $pdo->query("SELECT nama_lengkap, username FROM nasabah ORDER BY id_nasabah DESC LIMIT 5")->fetchAll();
 
+    // --- F. TOP 5 SIMPANAN TERBANYAK ---
+    $top_simpanan = $pdo->query("
+        SELECT n.nama_lengkap, n.username, COALESCE(SUM(s.nominal_simpanan), 0) as total_simpanan
+        FROM nasabah n
+        LEFT JOIN simpanan s ON n.id_nasabah = s.id_nasabah
+        GROUP BY n.id_nasabah, n.nama_lengkap, n.username
+        ORDER BY total_simpanan DESC
+        LIMIT 5
+    ")->fetchAll();
+
+    // --- G. TOP 5 PINJAMAN TERBANYAK ---
+    $top_pinjaman = $pdo->query("
+        SELECT n.nama_lengkap, n.username, COALESCE(SUM(p.nominal_pinjaman), 0) as total_pinjaman
+        FROM nasabah n
+        LEFT JOIN pinjaman p ON n.id_nasabah = p.id_nasabah
+        LEFT JOIN status_pinjaman sp ON p.id_pinjaman = sp.id_pinjaman
+        WHERE sp.status IN ('DISETUJUI', 'MENUNGGU')
+        GROUP BY n.id_nasabah, n.nama_lengkap, n.username
+        ORDER BY total_pinjaman DESC
+        LIMIT 5
+    ")->fetchAll();
+
 } catch (Exception $e) {
     echo "Error Data: " . $e->getMessage();
 }
@@ -107,6 +129,65 @@ try {
             <div class="widget-body">
                 <div class="chart-container-fixed chart-pie-wrapper"><canvas id="chart-status"></canvas></div>
                 <div class="chart-legend">Distribusi Status</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top 5 Simpanan & Pinjaman Row -->
+    <div class="row-2-col">
+        <div class="widget-box">
+            <div class="widget-header"><span>💰 Top 5 Simpanan Terbanyak</span></div>
+            <div class="widget-body">
+                <table class="table-widget">
+                    <thead>
+                        <tr>
+                            <th>Nasabah</th>
+                            <th class="text-right">Total Simpanan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($top_simpanan as $s): ?>
+                    <tr>
+                        <td class="user-cell">
+                            <div class="user-avatar-small"><?= strtoupper(substr($s['nama_lengkap'],0,2)) ?></div>
+                            <div>
+                                <div class="font-bold"><?= htmlspecialchars($s['nama_lengkap']) ?></div>
+                                <div class="text-muted-small">@<?= htmlspecialchars($s['username']) ?></div>
+                            </div>
+                        </td>
+                        <td class="text-right font-bold" style="color: #10b981;"><?= formatRupiah($s['total_simpanan']) ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="widget-box">
+            <div class="widget-header"><span>💸 Top 5 Pinjaman Terbanyak</span></div>
+            <div class="widget-body">
+                <table class="table-widget">
+                    <thead>
+                        <tr>
+                            <th>Nasabah</th>
+                            <th class="text-right">Total Pinjaman</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <?php foreach($top_pinjaman as $p): ?>
+                    <tr>
+                        <td class="user-cell">
+                            <div class="user-avatar-small"><?= strtoupper(substr($p['nama_lengkap'],0,2)) ?></div>
+                            <div>
+                                <div class="font-bold"><?= htmlspecialchars($p['nama_lengkap']) ?></div>
+                                <div class="text-muted-small">@<?= htmlspecialchars($p['username']) ?></div>
+                            </div>
+                        </td>
+                        <td class="text-right font-bold" style="color: #ef4444;"><?= formatRupiah($p['total_pinjaman']) ?></td>
+                    </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
